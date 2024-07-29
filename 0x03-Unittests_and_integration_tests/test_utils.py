@@ -1,27 +1,22 @@
 #!/usr/bin/env python3
-"""Unit tests for access_nested_map function"""
-import unittest
+"""Unit and Integration Tests for Utility Functions"""
+
 from parameterized import parameterized
+from typing import Mapping, Sequence
+from unittest import TestCase
 
-def access_nested_map(nested_map: dict, path: tuple) -> object:
-    """Access nested value in a map using the specified path."""
-    current = nested_map
-    for key in path:
-        current = current[key]
-    return current
 
-# Define the test class
-@parameterized.expand([
-    {"nested_map": {"a": 1}, "path": ("a",)},
-    {"nested_map": {"a": {"b": 2}}, "path": ("a",)},
-    {"nested_map": {"a": {"b": 2}}, "path": ("a", "b")}
-])
-class TestAccessNestedMap(unittest.TestCase):
-    def test_access_existing_path(self, nested_map: dict, path: tuple) -> None:
-        """Test access_nested_map function with existing path."""
-        expected_result = path[-1]
-        actual_result = access_nested_map(nested_map, path)
-        self.assertEqual(actual_result, expected_result)
+class TestAccessNestedMap(TestCase):
+    """Unit tests for access_nested_map function"""
 
-if __name__ == "__main__":
-    unittest.main()
+    @parameterized.expand([
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2),
+    ])
+    def test_access_nested_map(
+            self, nested_dict: Mapping, path: Sequence, expected_value: Any
+            ):
+        "Test that access_nested_map returns the correct value"""
+        self.assertEqual(access_nested_map(nested_dict, path), expected_value)
+
