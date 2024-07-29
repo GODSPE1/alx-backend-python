@@ -3,7 +3,7 @@
 import unittest
 from parameterized import parameterized
 
-def access_nested_map(nested_map, path):
+def access_nested_map(nested_map: dict, path: tuple) -> object:
     """Access nested value in a map using the specified path."""
     current = nested_map
     for key in path:
@@ -17,7 +17,7 @@ def access_nested_map(nested_map, path):
     {"nested_map": {"a": {"b": 2}}, "path": ("a", "b")}
 ])
 class TestAccessNestedMap(unittest.TestCase):
-    def test_access_existing_path(self, nested_map, path):
+    def test_access_existing_path(self, nested_map: dict, path: tuple) -> None:
         """Test access_nested_map function with existing path."""
         expected_result = path[-1]
         actual_result = access_nested_map(nested_map, path)
@@ -25,4 +25,3 @@ class TestAccessNestedMap(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    
